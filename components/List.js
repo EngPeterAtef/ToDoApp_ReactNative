@@ -1,40 +1,65 @@
-import { View, Text, StyleSheet, ScrollView,Button, FlatList } from 'react-native'
-import React, { useState } from 'react'
-import Card from './Card';
+import {
+    View,
+    Text,
+    StyleSheet,
+    ScrollView,
+    Button,
+    FlatList,
+    TextInput,
+} from "react-native";
+import React, { useState } from "react";
+import Card from "./Card";
 
 export default function List() {
-    const [items, setItems] = useState(
-        [
-            { name: "study1", day: "sat" },
-            { name: "study2", day: "sat" },
-            { name: "study3", day: "sat" },
-            { name: "study4", day: "sat" },
-            { name: "study5", day: "sat" },
-            { name: "study6", day: "sat" },
-            { name: "study7", day: "sat" },
-            { name: "study8", day: "sat" },
-            { name: "study9", day: "sat" },
-            { name: "study10", day: "sat" },
-            { name: "study11", day: "sat" },
-            { name: "study111", day: "sat" },
-        ]
-    );
+    const [items, setItems] = useState([]);
+    const [tName, setName] = useState("");
+    const [tDay, setDay] = useState("");
+    const [err, setErr] = useState("");
+
+    //function to set the name and the day of the task
+    function changeName(val) {
+        setName(val);
+    }
+    function changeDay(val) {
+        setDay(val);
+    }
     //function to add new element to the list
-    function addElement (taskName,taskDay) {
-        setItems([...items,{name:taskName,day:taskDay}]);
+    function addElement() {
+        if (tName && tDay.length>=3) {
+            setErr("");
+            setItems([...items, { name: tName, day: tDay }]);
+        } 
+        else {
+            setErr("Please Enter All The needed Data");
+        }
     }
     //function to delete element from the list
-    function delElememt (index) {
-        setItems(items.filter(function(val,ind){
-            return ind !=index;
-        }));
-    };
+    function delElememt(index) {
+        setItems(
+            items.filter(function (val, ind) {
+                return ind != index;
+            })
+        );
+    }
     return (
         <View style={styles.cont}>
             <View style={styles.titV}>
                 <Text style={styles.tit}>To Do App</Text>
             </View>
-            <Button title='Add' onPress={addElement}></Button>
+            <View>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={changeName}
+                    placeholder="    Enter The task name"
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={changeDay}
+                    placeholder="    Enter The task day"
+                />
+                <Button title="Add" onPress={addElement}></Button>
+                <Text style={styles.error}>{err}</Text>
+            </View>
             {/* <ScrollView style={styles.lt}>
             {items.map((item,index)=><View style={styles.card} key={index}>
                 <View>
@@ -52,10 +77,18 @@ export default function List() {
                 // numColumns={2}
                 // horizontal
                 data={items}
-                keyExtractor={(item, index) => index}//it returns the index to be the key
-                renderItem={(obj) =>//this function returns the an object has the index in the array and the item
-                    <Card name={obj.item.name} day={obj.item.day} del={()=>delElememt(obj.index)} />
-                    
+                keyExtractor={(item, index) => index} //it returns the index to be the key
+                renderItem={
+                    (
+                        obj //this function returns the an object has the index in the array and the item
+                    ) => (
+                        <Card
+                            name={obj.item.name}
+                            day={obj.item.day}
+                            del={() => delElememt(obj.index)}
+                        />
+                    )
+
                     // <View style={styles.card}>
                     //     <View>
                     //         <Text style={styles.task}>Task: {obj.item.name}</Text>
@@ -68,21 +101,32 @@ export default function List() {
                 }
             />
         </View>
-    )
+    );
 }
 const styles = StyleSheet.create({
-    tit:
-    {
+    tit: {
         fontSize: 30,
         fontWeight: "bold",
         color: "#82DEFF",
     },
-    titV:
-    {
+    titV: {
         backgroundColor: "#1E1E1E",
         marginTop: 30,
-        width: 400,//full width
+        width: 400, //full width
         alignItems: "center",
+    },
+    input: {
+        borderRadius: 10,
+        borderColor: "grey",
+        borderWidth: 2,
+        marginVertical: 5,
+    },
+    error: {
+        fontSize: 15,
+        fontStyle: "italic",
+        fontWeight: "bold",
+        color: "red",
+        paddingLeft:65,
     },
     // task:
     // {
@@ -106,4 +150,4 @@ const styles = StyleSheet.create({
     //     position: 'absolute',
     //     marginLeft:270,
     // }
-})
+});
