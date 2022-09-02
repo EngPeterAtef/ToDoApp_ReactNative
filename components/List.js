@@ -13,33 +13,39 @@ import Card from "./Card";
 export default function List() {
     const [items, setItems] = useState([]);
     const [tName, setName] = useState("");
-    const [tDay, setDay] = useState("");
     const [err, setErr] = useState("");
 
     //function to set the name and the day of the task
     function changeName(val) {
         setName(val);
     }
-    function changeDay(val) {
-        setDay(val);
-    }
+
     //function to add new element to the list
     function addElement() {
-        if (tName && tDay.length>=3) {
+        if (tName) {
             setErr("");
-            setItems([...items, { name: tName, day: tDay }]);
-        } 
+            setItems([...items, { name: tName,checked: false }]);
+        }
         else {
             setErr("Please Enter All The needed Data");
         }
+        setName("");
     }
     //function to delete element from the list
     function delElememt(index) {
+        //index :the element you want to delete
+        //ind: ind of all elements
+        //filter loops over all the elements and return the array after filter
         setItems(
             items.filter(function (val, ind) {
                 return ind != index;
             })
         );
+    }
+    //function to check the element and put it at the end of the list
+    function checkTask(index) {
+        items[index].checked=!(items[index].checked);
+        setItems([...items]);//to render the array to see the new values
     }
     return (
         <View style={styles.cont}>
@@ -51,11 +57,7 @@ export default function List() {
                     style={styles.input}
                     onChangeText={changeName}
                     placeholder="    Enter The task name"
-                />
-                <TextInput
-                    style={styles.input}
-                    onChangeText={changeDay}
-                    placeholder="    Enter The task day"
+                    value={tName}
                 />
                 <Button title="Add" onPress={addElement}></Button>
                 <Text style={styles.error}>{err}</Text>
@@ -84,8 +86,9 @@ export default function List() {
                     ) => (
                         <Card
                             name={obj.item.name}
-                            day={obj.item.day}
+                            flagCheck={obj.item.checked}
                             del={() => delElememt(obj.index)}
+                            check={() => checkTask(obj.index)}
                         />
                     )
 
@@ -126,28 +129,6 @@ const styles = StyleSheet.create({
         fontStyle: "italic",
         fontWeight: "bold",
         color: "red",
-        paddingLeft:65,
-    },
-    // task:
-    // {
-    //     fontSize: 23,
-    //     color: "#82DEFF",
-    //     fontWeight: 'bold',
-    //     marginLeft: 10,
-    // },
-    // card:
-    // {
-    //     borderColor:'white',
-    //     borderRadius:15,
-    //     borderWidth:5,
-    //     backgroundColor:"#333333",
-    //     height:90,
-    //     flexDirection:'row',
-    //     alignItems:'center',
-    // },
-    // del:
-    // {
-    //     position: 'absolute',
-    //     marginLeft:270,
-    // }
+        paddingLeft: 65,
+    }
 });
