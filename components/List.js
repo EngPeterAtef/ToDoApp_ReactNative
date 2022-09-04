@@ -11,18 +11,28 @@ import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function List() {
+export default function List(props) {
     const [items, setItems] = useState([]);
     const [tName, setName] = useState("");
     const [err, setErr] = useState("");
-
+    const userName = props.route.params.userName;
     //functions to set and get the async storage
     async function setStorage() {
-        var data = await AsyncStorage.setItem("items", JSON.stringify(items));
+        try {
+            var data = await AsyncStorage.setItem("items", JSON.stringify(items));
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     async function getStorage() {
-        var data = await AsyncStorage.getItem("items");//get the data from the local storage
-        setItems(JSON.parse(data));//set the items array adn render the component
+        try {
+            var data = await AsyncStorage.getItem("items");//get the data from the local storage
+            setItems(JSON.parse(data));//set the items array adn render the component
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     useEffect(() => {
         setStorage();//we call the setting func on change in items only
@@ -30,7 +40,6 @@ export default function List() {
 
     useEffect(() => {
         getStorage();//we call this function on the first mount only
-        console.log(items);
     }, []);//the empty array means it won't be called on any update
 
     //function to set the name and the day of the task
@@ -68,7 +77,7 @@ export default function List() {
     return (
         <View style={styles.cont}>
             <View style={styles.titV}>
-                <Text style={styles.tit}>To Do App</Text>
+                <Text style={styles.tit}>Welcome {userName} !!</Text>
             </View>
             <View>
                 <TextInput
@@ -135,6 +144,7 @@ const styles = StyleSheet.create({
         marginTop: 30,
         width: 400, //full width
         alignItems: "center",
+        marginTop: -3,
     },
     input: {
         borderRadius: 10,
