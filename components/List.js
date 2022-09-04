@@ -7,13 +7,31 @@ import {
     FlatList,
     TextInput,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "./Card";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function List() {
     const [items, setItems] = useState([]);
     const [tName, setName] = useState("");
     const [err, setErr] = useState("");
+
+    //functions to set and get the async storage
+    async function setStorage() {
+        var data = await AsyncStorage.setItem("items", JSON.stringify(items));
+    }
+    async function getStorage() {
+        var data = await AsyncStorage.getItem("items");//get the data from the local storage
+        setItems(JSON.parse(data));//set the items array adn render the component
+    }
+    useEffect(() => {
+        setStorage();//we call the setting func on change in items only
+    }, [items]);//that means when the array items change execute those functions
+
+    useEffect(() => {
+        getStorage();//we call this function on the first mount only
+        console.log(items);
+    }, []);//the empty array means it won't be called on any update
 
     //function to set the name and the day of the task
     function changeName(val) {
@@ -24,7 +42,7 @@ export default function List() {
     function addElement() {
         if (tName) {
             setErr("");
-            setItems([...items, { name: tName,checked: false }]);
+            setItems([...items, { name: tName, checked: false }]);
         }
         else {
             setErr("Please Enter All The needed Data");
@@ -44,7 +62,7 @@ export default function List() {
     }
     //function to check the element and put it at the end of the list
     function checkTask(index) {
-        items[index].checked=!(items[index].checked);
+        items[index].checked = !(items[index].checked);
         setItems([...items]);//to render the array to see the new values
     }
     return (
