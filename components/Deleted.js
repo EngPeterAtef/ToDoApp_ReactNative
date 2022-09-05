@@ -2,11 +2,11 @@ import { View, Text ,StyleSheet} from 'react-native'
 import React from 'react'
 
 export default function Deleted(props) {
-    const userName = props.route.params.uName;
+    const user = props.route.params;
     return (
         <View style={styles.cont}>
             <View style={styles.titV}>
-                <Text style={styles.tit}>Welcome {userName} !!</Text>
+            <Text style={styles.tit}>Keep Going {user.userName} !!</Text>
             </View>
         </View>
     )

@@ -12,14 +12,14 @@ import Card from "./Card";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function List(props) {
-    const [items, setItems] = useState([]);
+    const [items, setTasks] = useState([]);
     const [tName, setName] = useState("");
     const [err, setErr] = useState("");
-    const userName = props.route.params.uName;
+    const user = props.route.params;
     //functions to set and get the async storage
     async function setStorage() {
         try {
-            var data = await AsyncStorage.setItem("items", JSON.stringify(items));
+            var data = await AsyncStorage.setItem("key", JSON.stringify(items));
         }
         catch (e) {
             console.log(e);
@@ -27,8 +27,9 @@ export default function List(props) {
     }
     async function getStorage() {
         try {
-            var data = await AsyncStorage.getItem("items");//get the data from the local storage
-            setItems(JSON.parse(data));//set the items array adn render the component
+            var data = await AsyncStorage.getItem("key");//get the data from the local storage
+            console.log("get: "+JSON.stringify(data));
+            setTasks(JSON.parse(data));//set the items array adn render the component
         }
         catch (e) {
             console.log(e);
@@ -51,7 +52,7 @@ export default function List(props) {
     function addElement() {
         if (tName) {
             setErr("");
-            setItems([...items, { name: tName, checked: false }]);
+            setTasks([...items, { name: tName, checked: false }]);
         }
         else {
             setErr("Please Enter All The needed Data");
@@ -63,7 +64,7 @@ export default function List(props) {
         //index :the element you want to delete
         //ind: ind of all elements
         //filter loops over all the elements and return the array after filter
-        setItems(
+        setTasks(
             items.filter(function (val, ind) {
                 return ind != index;
             })
@@ -72,12 +73,12 @@ export default function List(props) {
     //function to check the element and put it at the end of the list
     function checkTask(index) {
         items[index].checked = !(items[index].checked);
-        setItems([...items]);//to render the array to see the new values
+        setTasks([...items]);//to render the array to see the new values
     }
     return (
         <View style={styles.cont}>
             <View style={styles.titV}>
-                <Text style={styles.tit}>Welcome {userName} !!</Text>
+                <Text style={styles.tit}>Keep Going {user.userName} !!</Text>
             </View>
             <View>
                 <TextInput

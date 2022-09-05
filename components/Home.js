@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function Home(props) {
     const Tab = createBottomTabNavigator();
-    const userName = props.route.params.userName;
+    const user = props.route.params;
     return (
             <Tab.Navigator
                 screenOptions={({ route }) => ({//taking the route of
@@ -26,13 +26,16 @@ export default function Home(props) {
                             else if (route.name == 'To Do') {
                                 icon = 'book';
                             }
+                            else{
+                                icon="ios-lock-open-sharp";
+                            }
                             return <Ionicons name={icon} size={size} color={color} />;
                         }
                 })}
                 
             >
-                <Tab.Screen options={{headerShown:false}} name='To Do' component={List} initialParams={{uName:userName}}></Tab.Screen>
-                <Tab.Screen options={{headerShown:false}} name='Deleted' component={Deleted} initialParams={{uName:userName}}></Tab.Screen>
+                <Tab.Screen options={{headerShown:false}} name='To Do' component={List} initialParams={user}></Tab.Screen>
+                <Tab.Screen options={{headerShown:false}} name='Deleted' component={Deleted} initialParams={user}></Tab.Screen>
             </Tab.Navigator>
     )
 }
