@@ -36,12 +36,13 @@ export default function List(props) {
         }
     }
     useEffect(() => {
+        getStorage();//we call this function on the first mount only
+    }, []);//the empty array means it won't be called on any update
+    
+    useEffect(() => {
         setStorage();//we call the setting func on change in items only
     }, [items]);//that means when the array items change execute those functions
 
-    useEffect(() => {
-        getStorage();//we call this function on the first mount only
-    }, []);//the empty array means it won't be called on any update
 
     //function to set the name and the day of the task
     function changeName(val) {
