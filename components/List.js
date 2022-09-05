@@ -15,7 +15,7 @@ export default function List(props) {
     const [items, setItems] = useState([]);
     const [tName, setName] = useState("");
     const [err, setErr] = useState("");
-    const userName = props.route.params.userName;
+    const userName = props.route.params.uName;
     //functions to set and get the async storage
     async function setStorage() {
         try {
@@ -118,16 +118,6 @@ export default function List(props) {
                             check={() => checkTask(obj.index)}
                         />
                     )
-
-                    // <View style={styles.card}>
-                    //     <View>
-                    //         <Text style={styles.task}>Task: {obj.item.name}</Text>
-                    //         <Text style={styles.task}>Day: {obj.item.day}</Text>
-                    //     </View>
-                    //     <View style={styles.del}>
-                    //         <Button title='delete'></Button>
-                    //     </View>
-                    // </View>
                 }
             />
         </View>
@@ -144,7 +134,6 @@ const styles = StyleSheet.create({
         marginTop: 30,
         width: 400, //full width
         alignItems: "center",
-        marginTop: -3,
     },
     input: {
         borderRadius: 10,

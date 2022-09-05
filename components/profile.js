@@ -1,18 +1,24 @@
-import { Text, View, StyleSheet, Button, TextInput } from "react-native";
+import { Text, View, StyleSheet, Button, TextInput, TouchableOpacity } from "react-native";
 import React, { useState } from 'react';
 function Profile(props) {
     const [user, setUser] = useState("");
     const [err, setErr] = useState("");
 
+    //this function to check if the name is stored before
+    //if it's not so error msg to sign up
     function goToList() {
         if (user.length != 0) {
             setErr("");
-            props.navigation.navigate('To Do App',{userName:user});
+            props.navigation.navigate('Home',{userName:user});
         }
         else {
             setErr("Please Enter Your Name");
         }
         setUser("");//to empty the text input
+    }
+    //go to sign up
+    function goToSignUp () {
+        props.navigation.navigate('SignUp');
     }
     function takeName(val) {
         setUser(val);
@@ -30,7 +36,10 @@ function Profile(props) {
                 <Text style={myStyle.error}>{err}</Text>
             </View>
             <Text style={myStyle.data}>Hello {user} !!</Text>
-            <Button title="Start" onPress={goToList} />
+            <Button title="LogIn" onPress={goToList} />
+            <TouchableOpacity onPress={goToSignUp}>
+                <Text style={myStyle.signup}>SignUp</Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -88,6 +97,17 @@ const myStyle = StyleSheet.create({
         fontStyle: "italic",
         fontWeight: "bold",
         color: "red",
+    },
+    signup:{
+        fontSize:'italic',
+        fontWeight:'bold',
+        fontSize:17,
+        color:'#1157AA',
+        borderWidth:2,
+        borderColor:'grey',
+        borderRadius:15,
+        borderStyle: 'dashed',
+        padding:5,
     }
 });
 
