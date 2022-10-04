@@ -4,9 +4,11 @@ ToDo app using React-Native.
 </h3>
 <h2>Features</h2>
 <ul>
-<li>Adding Features</li>
-<li>Deleting Features</li>
-<li>Check on a feature</li>
+<li>Log in</li>
+<li>Sign up </li>
+<li>Adding New Task</li>
+<li>Deleting Task</li>
+<li>Check on a Task as completed</li>
 <ul>
 <br/>
 <h2>How to use it?</h2>
