@@ -15,7 +15,7 @@ function Signup(props) {
       setErr("");
       console.log("from signup: "+ JSON.stringify(user));
       await AsyncStorage.setItem("sign", JSON.stringify(user));
-      props.navigation.navigate('Home', user);
+      props.navigation.navigate('Profile', user);
     }
   }
   function takeName(val) {
